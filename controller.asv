@@ -1,10 +1,10 @@
 classdef controller < handle
     properties(Constant)
-      kxp = 1;
-      kxd = 1;
-      kyp = 1;
+      kxp = 0;
+      kxd = 0;
+      kyp = 0;
       kyd = 0;
-      ktp = 1;
+      ktp = 0;
       ktd = 0;
       maxSteer = pi/2;
       maxV = .5;
@@ -17,10 +17,9 @@ classdef controller < handle
          
          function obj = controller()
          end
-         function u = feedback(obj,robPose,goalToWorld,dt)
+         function o = fe((obj,robPose,goalToWorld)
              %TODO, Figure out how input parameters goalToWorld, actual to
              %World, dt, and previous error
-             disp(goalToWorld)
              r_r_p = robPose.aToB()*(goalToWorld.getPoseVec() - robPose.getPoseVec());
              up = [obj.kxp 0 0; 0 obj.kyp obj.ktp]*r_r_p;
              deriv_error = (r_r_p - obj.r_r_prev)./dt;
