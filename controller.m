@@ -23,7 +23,6 @@ classdef Controller < handle
              %TODO, Figure out how input parameters goalToWorld, actual to
              %World, dt, and previous error
              r_r_p = robPose.aToB()*(goalToWorld.getPoseVec() - robPose.getPoseVec());
-             x_psi_z = [r_r_p(1) atan2(r_r_p(2),r_r_p(1)); r_r_p(3)];
              up = [obj.kxp 0 0; 0 obj.kyp obj.ktp]*r_r_p;
              deriv_error = (r_r_p - obj.r_r_prev)./dt;
              ud = [obj.kxd 0 0; 0 obj.kyd obj.ktd]*deriv_error;
