@@ -385,8 +385,7 @@ classdef CubicSpiralTrajectory < handle
                 K = obj.curvArray(i);
                 w = K*V;
                 %RobotModel Not Defined
-                vr = V + RobotModel.ModelW*w;
-                vl = V - RobotModel.ModelW*w;               
+                [vl , vr] = RobotModelAdv.VwTovlvr(V, w);             
                 if(abs(vr) > Vbase)
                     vrNew = Vbase * sign(vr);
                     vl = vl * vrNew/vr;
@@ -399,8 +398,9 @@ classdef CubicSpiralTrajectory < handle
                 end
                 obj.vlArray(i) = vl;
                 obj.vrArray(i) = vr;
-                obj.VArray(i) = (vr + vl)/2.0;
-                obj.wArray(i) = (vr - vl)/RobotModel.ModelW;                
+                [V_ramp, w_ramp] = RobotModelAdv.vlvrToVw(vl, vr);
+                obj.VArray(i) = V_ramp;
+                obj.wArray(i) = w_ramp;                
             end
             % Now compute the times that are implied by the velocities and
             % the distances.
